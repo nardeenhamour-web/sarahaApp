@@ -35,7 +35,7 @@ const bootstrap=async()=>{
         })
     })
 
-    console.log(process.env);
+ //  console.log(process.env);
     
 
     app.listen(port,()=>console.log(chalk.green(`example app listing `)))
