@@ -1,5 +1,6 @@
  import jwt from "jsonwebtoken"
  import { userModel } from "../DB/models/user.model.js";
+import { errorRes } from "../utils/error.handle.js";
  
  export const tokenEnum={
     access:"access",
@@ -33,7 +34,10 @@ export const decodeToken=async({authorization,tokenType=tokenEnum.access})=>{
         throw new Error(" user not found")
     }
     if(!user.confirmedAt){
-        throw new Error("confirm first ")
+        errorRes({
+            msg:"confirme first",
+            statusCode:404
+        })
     }
     return{
         user

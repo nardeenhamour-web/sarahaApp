@@ -1,26 +1,36 @@
 
 
+import { errorRes } from "../utils/error.handle.js";
 
-export const validation=(Schema)=>{
-return(req,res,next)=>{
-    const validationErrors=[]
-Object.keys(Schema).map(ele=>{
-   const validationRes= Schema[ele].safeParse(req[ele])
+export const validation = (Schema) => {
+    return (req, res, next) => {
+        try {
+            const validationErrors = [];
 
+            Object.keys(Schema).forEach((key) => {
+                const validationRes = Schema[key].safeParse(req[key]);
 
-if(!validationRes.success){
-    //throw new Error(validationRes.error.issues  );
-    validationErrors.push({
-        [ele]:validationRes.errors.issues
-    })
-}
-})
-if(validationErrors.length){
-throw new Error("validation errors");
+                if (!validationRes.success) {
+                    validationErrors.push({
+                        [key]: validationRes.error.issues
+                    });
+                } else {
+                    req[key] = validationRes.data;
+                }
+            });
 
-}
+            if (validationErrors.length > 0) {
+                return errorRes({
+                    msg: "Validation errors",
+                    statusCode: 400,
+                    options: validationErrors
+                });
+            }
 
+            return next();
 
-next()
-}
-}
+        } catch (error) {
+            return next(error);
+        }
+    };
+};

@@ -1,4 +1,5 @@
 import bootstrap from "./src/bootstrap.js"
+import { callback } from "./src/utils/multer.js";
 //import { GenderEnum } from "./src/modules/User/user.types.js";
 import { decryption, encryption } from "./src/utils/secuirty/encryption.js";
 //import jwt from "jsonwebtoken"
@@ -15,7 +16,9 @@ bootstrap()
 // phoneSchema.parse(true)  (error)
 
 //console.log(result.error);
-
+//callback(//"name already exist"
+  //  null,"anas"
+//)
 
 const enc=encryption("anas")
 console.log({enc});
